@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Renxuan Yao</title>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/frame.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/controls.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/custom.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="node_modules/iink-ts/dist/iink.min.js"></script>
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-103598896-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</head>
+
+<body>
+<div class="menu-container"></div>
+<div class="content-container">
+  <div class="content">
+    <div class="content-table flex-column">
+      <div class="flex-row">
+        <div class="flex-item flex-column">
+          <img class="image" id="me" src="img/me.jpg">
+        </div>
+        <div class="flex-item flex-column">
+          <h2>Renxuan Yao</h2>
+          <p class="text">
+            Temple University Student<br>
+            tup19197(at)temple(dot)edu<br>
+          </p>
+        </div>
+      </div>
+
+      <div class="flex-row">
+        <div class="flex-item flex-column">
+          <h2>Biography</h2>
+          <hr>
+          <p class="text">
+            As a computer science major, I have a passion for technology and a drive to make a difference in the world. I was working as the leader of the coding club at my university, where I am responsible for managing a team of developers and overseeing the development of a website. This experience has taught me valuable leadership skills and given me hands-on experience with web development.<br>
+            In addition to my experience with web development, I also have a strong understanding of artificial intelligence and android development. I have worked on several projects involving machine learning, and have a solid foundation in programming languages such as Java, Python, and C. I am always eager to learn new technologies and expand my knowledge in the field of computer science.
+          </p>
+
+          <h3>Table of Content</h3>
+          <ul>
+            <li><a href="#award">Awards and Honors</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Leadership Experience</a></li>
+            <li><a href="#skills">Technical Skills</a></li>
+
+
+          </ul>
+
+          <h2 id="award">Awards and Honors</h2>
+          <hr>
+          <ol class="publication A-list">
+            <li>
+              <p class="text-small-margin">
+                Dean’s List
+              </p>
+            </li>
+            <li>
+              <p class="text-small-margin">
+                Scholarship for Undergraduate Continuing Students
+              </p>
+            </li>
+          </ol>
+
+          <h2 id="research">Research</h2>
+          <hr>
+          <ol class="publication R-list">
+            <li>
+              <p class="text-small-margin">
+                <strong>Research on Deep Learning Techniques for Data Imputation in Geological Datasets from Philadelphia</strong>
+                <br><em>Supervised by Prof. Longin Jan Latecki, Temple University</em>
+                <br><em>Jun. 2024 – Dec. 2024</em>
+                <br>&#8226;&emsp; Investigated long-term missing value imputation using deep learning methods and evaluated the performance of Python libraries (SkLearn, MissForest) and R packages (ImputeTS, Mtsdi)
+                <br>&#8226;&emsp; Implemented part of the MLP model from Park et al. and applied the Transformer (typically used in NLP) developed by Zerveas et al. to data imputation
+                <br>&#8226;&emsp; Resampled time series data to hourly intervals and isolated key columns for effective imputation
+                <br>&#8226;&emsp; Analyzed datasets from SMP (Philadelphia) and New Mexico, focusing on volumetric water content (VWC) with controlled missing values for validation
+              </p>
+            </li>
+          </ol>
+
+          <h2 id="education">Education</h2>
+          <hr>
+          <ol class="publication E-list">
+            <li>
+              <p class="text-small-margin">
+                <strong>UWC</strong> | Changshu China
+                <br><em>Sep. 2018 – May. 2021</em>
+                <br>&#8226;&emsp;IB diploma
+                <br>&#8226;&emsp;Grade: 36/42
+              </p>
+            </li>
+            <li>
+              <p class="text-small-margin">
+                <strong>Temple University</strong> | College of Science and Technology
+                <br><em>Jan. 2022 – Dec. 2024</em>
+                <br>&#8226;&emsp;Expected B.S. in Computer Science, Minor in Mathematics
+                <br>&#8226;&emsp;Major GPA: 4.00/4.00, Overall GPA: 3.93/4.00
+              </p>
+            </li>
+          </ol>
+            <h2 id="projects">Projects</h2>
+            <hr>
+            <ol class="publication P-list">
+              <li>
+                <p class="text-small-margin">
+                  <strong>BidAgent_Simulator: An Agent-Based Model for Online Auction Simulation with MatLab</strong>
+                  <br><em>Jan. 2024 – May. 2024</em>
+                  <br>&#8226;&emsp;Developed a simplified agent-based model to analyze bidder behavior in online auctions using MATLAB and Object-Oriented Programming (OOP) principles
+                  <br>&#8226;&emsp;Simulated an auction’s last 60 minutes, incorporating dynamic bidder strategies and normal distributions to replicate real-world variability
+                  <br>&#8226;&emsp;Designed and implemented two independent bidding strategies with autonomous bidders, analyzed results using curve fusion and compared findings through the Pearson correlation coefficient
+                </p>
+              </li>
+              <li>
+                <p class="text-small-margin">
+                  <strong>PyCourseDB_Manager: A Course DataBase Management System with Python GUI and SQL</strong>
+                  <br><em>Jun. 2023 – Aug. 2023</em>
+                  <br>&#8226;&emsp;Developed a local database system using MySQL and connected and managed the system via Python
+                  <br>&#8226;&emsp;Implemented PyQt5 as a third-party library to create an efficient user interface and achieved a high level of completeness despite the utilization of synthetic data
+                </p>
+              </li>
+              <li>
+                <p class="text-small-margin">
+                  <strong>Theoretical Analysis on the Integration of AI into Employment and Industry Dynamics</strong>
+                  <br><em>Jan. 2024 – May. 2024</em>
+                  <br>&#8226;&emsp;Conducted an in-depth theoretical analysis to understand the integration of AI across various sectors, with a particular emphasis on identifying careers that are best suited to adapt to and utilize general AI
+                  <br>&#8226;&emsp;Predicted the impact of AI on the job market, evaluating the potential for job displacement and the degree of disruptions and the resulting changes in occupational structures
+                  <br>&#8226;&emsp;Analyzed the strengths and limitations of AI systems to identify potential challenges in the job market and provided insights to address AI-related employment challenges
+                </p>
+              </li>
+              <li>
+                <p class="text-small-margin">
+                  <strong>Crystal_Crusader: A Text-based Game with JavaFX</strong>
+                  <br><em>Jan. 2024 – May. 2024</em>
+                  <br>&#8226;&emsp;Collaborated to develop a text-based game enabling users to tailor their own player characters
+                  <br>&#8226;&emsp;Developed a text-based game using Java, leveraging object-oriented programming (OOP) principles such as encapsulation, inheritance, and polymorphism to create modular and reusable code. Applied software design patterns, including MVC (Model-View-Controller), to structure the game's architecture, enabling efficient interaction between the graphical user interface and the backend logic. This approach ensured maintainability, scalability, and a clear separation of concerns within the game.
+                  <br>&#8226;&emsp;Packaged the project as an executable (.exe) file, leading to a complete text-based game experience
+                </p>
+              </li>
+              <li>
+                <p class="text-small-margin">
+                  <strong>Development of a Deep Learning Baseline Model for Recognizing Chinese Characters	</strong>
+                  <br><em>Jan. 2023 – May. 2023</em>
+                  <br>&#8226;&emsp;Utilized Python libraries, such as NumPy and Matplotlib, to build a deep learning model. Applied key neural network concepts such as forward and backward propagation, activation functions, and weight optimization. Used principles of calculus, including gradients and partial derivatives, to refine the learning process and improve model performance.
+                  <br>&#8226;&emsp;Achieved efficient learning and recognition of a predefined set of binary matrix representations of Chinese characters
+                </p>
+              </li>
+          </ol>
+          <h2 id="experience">Leadership Experience</h2>
+          <hr>
+          <ol class="publication L-list">
+            <li>
+              <p class="text-small-margin">
+                <em>President, </em>
+                <strong>Coding Club, </strong>
+                Temple University, Japan Campus
+                <br><em>Jan. 2023 - Dec. 2023</em>
+                <br>&#8226;&emsp;Supervised club operations, including code maintenance, event planning, budget applications, club promotion, and regular meeting coordination
+                <br>&#8226;&emsp;Brainstormed club projects, and designed and executed training series on Python, HTML, JavaScript, and other programming languages for newcomers
+                <br>&#8226;&emsp;Oversaw project progress, led the creation of a club webpage including commonly-used tools for university students, such as course management, event reminders, and resource sharing, and developed a complementary Android app integrating Python functionality and enabling club members to exhibit their Python projects
+              </p>
+            </li>
+            <li>
+              <p class="text-small-margin">
+                <em>Computer Science and Mathematics Tutor, </em>
+                <strong>Temple University, Japan Campus</strong>
+                <br><em>Jun. 2023 - Dec. 2023</em>
+                <br>&#8226;&emsp;Tailored one-on-one tutoring sessions per learning needs and fostered a supportive learning environment
+                <br>&#8226;&emsp;Assisting first- and second-year students in understanding CS and mathematical principles, including introductory-level programming, object-oriented programming, operating systems, data structure, discrete mathematics and calculus
+              </p>
+            </li>
+          </ol>
+          <h2 id="skills">Technical Skills</h2>
+          <hr>
+          <ol class="publication list">
+            <li>
+              <p class="text-small-margin">
+                &#8226;&emsp;<strong>Programming Languages</strong>: Java, Python, C, JavaScript, Kotlin, MATLAB
+                <br>&#8226;&emsp;<strong>Tools & Frameworks</strong>: Git, Android Studio, JetBrains suite, Pyqt-5
+                <br>&#8226;&emsp;<strong>Others</strong>: Agent-Based Modeling, Machine Learning (NumPy, PyTorch), UX Design, PostgreSQL, Software Design, HTML, CSS
+              </p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+
+</html>
