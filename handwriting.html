@@ -109,14 +109,50 @@
         const conf = await res.json();
         const options = {
             configuration: {
+                offscreen: true,
                 server: {
                     ...conf,
                     protocol: "WEBSOCKET"
                 },
+                rendering: {
+                    minWidth: 1240,
+                    minHeight: 2000,
+                    guides: {
+                        enable: false
+                    },
+                },
+                grabber: {
+                    listenerOptions:{
+                        capture: true,
+                    },
+                    delayLongTouch: 500
+                },
                 recognition: {
+                    alwaysConnected: true,
                     type: "TEXT",
+                    "recognition-timeout": 3600000
+                },
+                modules: {
+                    eraser: true,
+                    transcript: true
+                },
+                triggers: {
+                    exportContent: "ONDEMAND"
+                },
+                menu: {
+                    style: {
+                        enable: false
+                    },
+                    intention: {
+                        enable: false
+                    },
+                    action: {
+                        enable: true
+                    }
                 }
-            }
+            },
+
+
         };
         /**
          * Instanciate editor
