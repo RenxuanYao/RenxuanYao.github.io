@@ -37,17 +37,25 @@
 
         const options = {
             configuration: {
+
                 offscreen: true,
                 server,
                 rendering: {
-                    minHeight: 2000,
                     minWidth: 2000,
+                    minHeight: 2000,
+                    guides: {
+                        enable: false
+                    },
+                    penStyle: {
+                        width: 2,
+                    },
                     minPointsDistance: 0.5,
 
                 },
                 grabber: {
                     listenerOptions:{
-                        capture: false,
+                        capture: true,
+
                     },
                 },
             },
