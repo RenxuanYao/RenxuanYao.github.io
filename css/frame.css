@@ -643,6 +643,17 @@ ol.publication.R-list li p {
 ol.publication.R-list li p:before {
   content: "[R" counter(A-counter)"]";
 }
+ol.publication.W-list {
+  counter-reset: A-counter;
+}
+
+ol.publication.W-list li p {
+  counter-increment: A-counter;
+}
+
+ol.publication.W-list li p:before {
+  content: "[W" counter(A-counter)"]";
+}
 ol.publication.E-list {
   counter-reset: A-counter;
   list-style-type: decimal;
