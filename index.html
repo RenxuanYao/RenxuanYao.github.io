@@ -1,331 +1,860 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Renxuan Yao</title>
-    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/frame.css" media="screen" rel="stylesheet" type="text/css"/>
-    <link href="css/controls.css" media="screen" rel="stylesheet" type="text/css"/>
-    <link href="css/custom.css" media="screen" rel="stylesheet" type="text/css"/>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="js/menu.js"></script>
-    <script src="node_modules/iink-ts/dist/iink.min.js"></script>
-    <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-103598896-1', 'auto');
-        ga('send', 'pageview');
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renxuan Yao | AI Researcher</title>
+    <meta name="description" content="Portfolio of Renxuan Yao, Brown University Graduate Student and AI Researcher.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <!-- Icons (Phosphor Icons for lightweight SVG) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
     <style>
-        /* Reset ALL link styling */
-        a.black-link {
-            color: inherit !important;        /* Inherits text color from parent */
-            text-decoration: none; /* No underline */
+        :root {
+            --bg-color: #050505;
+            --text-primary: #e0e0e0;
+            --text-secondary: #94a3b8;
+            --accent: #00f0ff; /* Cyberpunk Cyan */
+            --accent-dim: rgba(0, 240, 255, 0.1);
+            --accent-secondary: #7000ff;
+            --card-bg: rgba(20, 20, 25, 0.8);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-display: 'Space Grotesk', sans-serif;
         }
-        /* Disable hover/active/focus effects */
-        a.black-link:hover,
-        a.black-link:active,
-        a.black-link:focus {
-            color: inherit;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* --- Canvas Background --- */
+        #neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 1; /* Increased opacity for the new effect */
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+
+        /* --- Typography & Glitch Effect --- */
+        h1, h2, h3 {
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .glitch {
+            position: relative;
+            font-family: var(--font-mono);
+            font-size: 4rem;
+            line-height: 1.1;
+        }
+
+        @media (max-width: 768px) {
+            .glitch { font-size: 2.5rem; }
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(30px, 9999px, 10px, 0); }
+            5% { clip: rect(80px, 9999px, 90px, 0); }
+            10% { clip: rect(10px, 9999px, 30px, 0); }
+            15% { clip: rect(60px, 9999px, 20px, 0); }
+            100% { clip: rect(50px, 9999px, 80px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(10px, 9999px, 60px, 0); }
+            5% { clip: rect(40px, 9999px, 10px, 0); }
+            10% { clip: rect(90px, 9999px, 50px, 0); }
+            15% { clip: rect(20px, 9999px, 30px, 0); }
+            100% { clip: rect(70px, 9999px, 20px, 0); }
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            flex-grow: 1;
+            max-width: 300px;
+        }
+
+        .highlight {
+            color: var(--accent);
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
             text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            font-family: var(--font-mono);
         }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Simplified mobile nav for brevity */
+        }
+
+        /* --- Hero Section --- */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 0;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .subtitle {
+            font-family: var(--font-mono);
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .bio-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin: 2rem 0;
+            max-width: 600px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            transition: all 0.3s;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .cta-btn:hover {
+            background: var(--accent-dim);
+            box-shadow: 0 0 20px var(--accent-dim);
+        }
+
+        /* --- Cards (Projects/Experience) --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .card-meta {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .tech-tag {
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            background: rgba(255,255,255,0.05);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            color: #bbb;
+        }
+
+        /* --- Experience Timeline --- */
+        .timeline-item {
+            border-left: 2px solid var(--card-border);
+            padding-left: 2rem;
+            padding-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .timeline-role {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .timeline-company {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .timeline-points li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            list-style-position: inside;
+            font-size: 0.95rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- Animations --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
     </style>
 </head>
-
 <body>
-<div class="menu-container"></div>
-<div class="content-container">
-    <div class="content">
-        <div class="content-table flex-column">
-            <div class="flex-row">
-                <div class="flex-item flex-column">
-                    <img class="image" id="me" src="img/me.jpg">
-                </div>
-                <div class="flex-item flex-column">
-                    <h2>Renxuan Yao</h2>
-                    <p class="text">
-                        Brown University Student<br>
-                        renxuan_yao(at)brown(dot)edu<br>
-                    </p>
-                </div>
+
+<!-- Canvas Background -->
+<canvas id="neural-canvas"></canvas>
+
+<!-- Navigation -->
+<nav>
+    <div class="container nav-content">
+        <div class="logo">RY<span class="highlight">_</span></div>
+        <div class="nav-links">
+            <a href="#about">/about</a>
+            <a href="#experience">/experience</a>
+            <a href="#projects">/projects</a>
+            <a href="#leadership">/leadership</a>
+            <a href="#skills">/skills</a>
+            <a href="mailto:renxuan_yao@brown.edu">/contact</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="container">
+
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="hero-content">
+            <span class="subtitle">Hi, my name is</span>
+            <h1 class="glitch" data-text="Renxuan Yao.">Renxuan Yao.</h1>
+
+            <p class="bio-text">
+                Graduate Student at <strong>Brown University</strong>. AI Researcher & Full Stack Developer.
+                <br><br>
+                I believe AI should be more than just powerful algorithms—it should be a tool to make life better, more accessible, and more humane.
+            </p>
+            <div style="margin-top: 2rem;">
+                <a href="#projects" class="cta-btn">Check out my work</a>
             </div>
+        </div>
+    </section>
 
-            <div class="flex-row">
-                <div class="flex-item flex-column">
-                    <h2>Biography</h2>
-                    <hr>
-                    <p class="text">
-                        I believe AI should be more than just powerful algorithms—it should be a tool to make life better, more accessible, and more humane. To me, AI is not about replacing people, but about amplifying what we can do, helping us solve problems we couldn’t tackle alone.
-<br>
-One idea I’ve been passionate about is using AI to support the training of service animals, opening up new ways to improve accessibility and independence for people who need it most. Projects like this reflect what drives me: applying technology in creative, human-centered ways.
-<br>
-My background spans artificial intelligence, machine learning, and mobile and web development, with a foundation in programming languages like Python, Java, and C. Now, as a graduate student in computer science focusing on AI, I’m continuing to explore how research and innovation can turn bold ideas into practical systems.
-<br>
-I’m excited to connect with others who share the belief that technology should not only advance what’s possible, but also what’s meaningful.
-                        
-                    </p>
-
-                    <h3>Table of Content</h3>
-                    <ul>
-                        <li><a href="#work experience">Work Experience</a></li>
-                        <li><a href="#research">Research</a></li>
-                        <li><a href="#education">Education</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#leadership experience">Leadership Experience</a></li>
-                        <li><a href="#skills">Technical Skills</a></li>
-
-
-                    </ul>
-                    <h2 id="work experience">Work Experience</h2>
-                    <hr>
-                    <ol class="publication W-list">
-                        <li>
-                            <p class="text-small-margin">
-                                <strong>United World College Changshu China</strong>
-                                <br><em>Intern of Educational Technology & Information Systems Department and Math
-                                Department</em>
-                                <br><em>Jan. 2025 – Jun. 2025</em>
-                                <br>&#8226;&emsp;Automate data extraction and transformation processes using Python and
-                                streamline integration
-                                with SQL databases to handle large student attendance datasets (classified by grades,
-                                classes,
-                                advisors, and living units), reducing manual effort and ensuring consistent data quality
-                                for
-                                analysis
-                                <br>&#8226;&emsp;Employ user-centered design principles to create practical solutions,
-                                conducting user interviews
-                                and usability testing to align tools with user needs and simplify complex workflows for
-                                administrators and educators
-                                <br>&#8226;&emsp;Oversaw project progress, led the creation of a club webpage including
-                                commonly-used tools for university students, such as course management, event reminders,
-                                and resource sharing, and developed a complementary Android app integrating Python
-                                functionality and enabling club members to exhibit their Python projects
-                                <br>&#8226;&emsp;Deliver mathematics courses for students from Grade 9 to Grade 12,
-                                tailoring teaching plans to
-                                meet individuals’ needs at different academic levels
-                            </p>
-                        </li>
-                    </ol>
-
-                    <h2 id="research">Research</h2>
-                    <hr>
-                    <ol class="publication R-list">
-                        <li>
-                            <p class="text-small-margin">
-                                <strong><a href="https://github.com/Edwardd02/TransformerProject" class="black-link">Research
-                                    on Deep
-                                    Learning Techniques for Data Imputation in Geological Datasets from Philadelphia</a></strong>
-                                <br><em>Supervised by Prof. Longin Jan Latecki, Temple University</em>
-                                <br><em>Jun. 2024 – Dec. 2024</em>
-                                <br>&#8226;&emsp; Investigated long-term missing value imputation using deep learning
-                                methods and evaluated the performance of Python libraries (SkLearn, MissForest) and R
-                                packages (ImputeTS, Mtsdi)
-                                <br>&#8226;&emsp; Implemented part of the MLP model from Park et al. and applied the
-                                Transformer (typically used in NLP) developed by Zerveas et al. to data imputation
-                                <br>&#8226;&emsp; Resampled time series data to hourly intervals and isolated key
-                                columns for effective imputation
-                                <br>&#8226;&emsp; Analyzed datasets from SMP (Philadelphia) and New Mexico, focusing on
-                                volumetric water content (VWC) with controlled missing values for validation
-                            </p>
-                        </li>
-                    </ol>
-
-                    <h2 id="education">Education</h2>
-                    <hr>
-                    <ol class="publication E-list">
-                        <li>
-                            <p class="text-small-margin">
-                                <strong>UWC</strong> | Changshu China
-                                <br><em>Sep. 2018 – May. 2021</em>
-                                <br>&#8226;&emsp;IB diploma
-                                <br>&#8226;&emsp;Grade: 36/42
-                            </p>
-                        </li>
-                        <li>
-                            <p class="text-small-margin">
-                                <strong>Temple University</strong> | College of Science and Technology
-                                <br><em>Jan. 2022 – Dec. 2024</em>
-                                <br>&#8226;&emsp;Bachler of Science in Computer Science, Minor in Mathematics
-                                <br>&#8226;&emsp;Major GPA: 4.00/4.00, Overall GPA: 3.94/4.00
-                                <br>&#8226;&emsp;Magna Cum Laude, Dean’s List, Scholarship for Undergraduate Continuing Students
-                            </p>
-                        </li>
-                        <li>
-                            <p class="text-small-margin">
-                                <strong>Brown University</strong> | Graduate School
-                                <br><em>Sept. 2025 – May. 2027</em>
-                                <br>&#8226;&emsp;Expected Master of science in Computer Science, Pathway in Artificial Intelligence
-                            </p>
-                        </li>
-                    </ol>
-                    <h2 id="projects">Projects</h2>
-                    <hr>
-                    <ol class="publication P-list">
-                        <li>
-                            <p class="text-small-margin">
-                                <strong><a
-                                        href="https://github.com/Edwardd02/Baseline-Model-for-Recognizing-Chinese-Characters"
-                                        class="black-link">Development
-                                    of a Deep Learning Baseline Model for Recognizing Chinese Characters</a></strong>
-                                <br><em>Jan. 2023 – May. 2023</em>
-                                <br>&#8226;&emsp;Utilized Python libraries, such as NumPy and Matplotlib, to build a
-                                deep learning model. Applied key neural network concepts such as forward and backward
-                                propagation, activation functions, and weight optimization. Used principles of calculus,
-                                including gradients and partial derivatives, to refine the learning process and improve
-                                model performance.
-                                <br>&#8226;&emsp;Achieved efficient learning and recognition of a predefined set of
-                                binary matrix representations of Chinese characters
-                            </p>
-                        </li>
-                        <li>
-                            <p class="text-small-margin">
-                                <strong><a href="https://github.com/capstone-projects-2024-fall/project-whiteboardflow"
-                                           class="black-link">WhiteBoard
-                                    Assistant: Interactive Web Application for Interview Preparation</a></strong>
-                                <br><em>Sept.2024 – Dec. 2024</em>
-                                <br>&#8226;&emsp;Created WhiteBoard Assistant, a React.js web application to help
-                                customers practice and perfect their skills in whiteboard-style coding interviews by
-                                working out problems on a digital whiteboard
-                                <br>&#8226;&emsp;Integrated the MyScript API into React.js for the right interpretation
-                                of handwritten input data, allowing efficient transfer to a backend database for
-                                real-time analysis and feedback
-                                <br>&#8226;&emsp;Developed the digital whiteboard’s user interface in React.js by
-                                improving user interaction by selecting a tool and sending problems
-                                <br>&#8226;&emsp;Optimized the comprehensive UI to ensure greater accessibility and
-                                user-friendliness across different devices, especially on tablets with a stylus
-                            </p>
-                        </li>
-                        <li>
-                            <p class="text-small-margin">
-                                <strong><a href="https://github.com/Edwardd02/BidAgent_Simulator" class="black-link">BidAgent_Simulator:
-                                    An
-                                    Agent-Based Model for Online Auction Simulation with MatLab</a></strong>
-                                <br><em>Jan. 2024 – May. 2024</em>
-                                <br>&#8226;&emsp;Developed a simplified agent-based model to analyze bidder behavior in
-                                online auctions using MATLAB and Object-Oriented Programming (OOP) principles
-                                <br>&#8226;&emsp;Simulated an auction’s last 60 minutes, incorporating dynamic bidder
-                                strategies and normal distributions to replicate real-world variability
-                                <br>&#8226;&emsp;Designed and implemented two independent bidding strategies with
-                                autonomous bidders, analyzed results using curve fusion and compared findings through
-                                the Pearson correlation coefficient
-                            </p>
-                        </li>
-                        <li>
-                            <p class="text-small-margin">
-                                <strong><a href="https://github.com/Edwardd02/PyCourseDB_Manager" class="black-link">PyCourseDB_Manager:
-                                    A
-                                    Course DataBase Management System with Python GUI and SQL</a></strong>
-                                <br><em>Jun. 2023 – Aug. 2023</em>
-                                <br>&#8226;&emsp;Developed a local database system using MySQL and connected and managed
-                                the system via Python
-                                <br>&#8226;&emsp;Implemented PyQt5 as a third-party library to create an efficient user
-                                interface and achieved a high level of completeness despite the utilization of synthetic
-                                data
-                            </p>
-                        </li>
-                        <li>
-                            <p class="text-small-margin">
-                                <strong><a href="file/A_Theoretical_Analysis_on_the_Integration_of_Artificial_Intelligence_(AI).pdf"
-                                           class="black-link">Theoretical
-                                    Analysis on the Integration of AI into Employment and Industry Dynamics</a></strong>
-                                <br><em>Jan. 2024 – May. 2024</em>
-                                <br>&#8226;&emsp;Conducted an in-depth theoretical analysis to understand the
-                                integration of AI across various sectors, with a particular emphasis on identifying
-                                careers that are best suited to adapt to and utilize general AI
-                                <br>&#8226;&emsp;Predicted the impact of AI on the job market, evaluating the potential
-                                for job displacement and the degree of disruptions and the resulting changes in
-                                occupational structures
-                                <br>&#8226;&emsp;Analyzed the strengths and limitations of AI systems to identify
-                                potential challenges in the job market and provided insights to address AI-related
-                                employment challenges
-                            </p>
-                        </li>
-                        <li>
-                            <p class="text-small-margin">
-                                <strong><a href="https://github.com/cis3296s24/05_Crystal_Crusader?tab=readme-ov-file"
-                                           class="black-link">Crystal_Crusader:
-                                    A Text-based Game with JavaFX</a></strong>
-                                <br><em>Jan. 2024 – May. 2024</em>
-                                <br>&#8226;&emsp;Collaborated to develop a text-based game enabling users to tailor
-                                their own player characters
-                                <br>&#8226;&emsp;Developed a text-based game using Java, leveraging object-oriented
-                                programming (OOP) principles such as encapsulation, inheritance, and polymorphism to
-                                create modular and reusable code. Applied software design patterns, including MVC
-                                (Model-View-Controller), to structure the game's architecture, enabling efficient
-                                interaction between the graphical user interface and the backend logic. This approach
-                                ensured maintainability, scalability, and a clear separation of concerns within the
-                                game.
-                                <br>&#8226;&emsp;Packaged the project as an executable (.exe) file, leading to a
-                                complete text-based game experience
-                            </p>
-                        </li>
-                    </ol>
-                    <h2 id="leadership experience">Leadership Experience</h2>
-                    <hr>
-                    <ol class="publication L-list">
-                        <li>
-                            <p class="text-small-margin">
-                                <em>President, </em>
-                                <strong>Coding Club, </strong>
-                                Temple University, Japan Campus
-                                <br><em>Jan. 2023 - Dec. 2023</em>
-                                <br>&#8226;&emsp;Supervised club operations, including code maintenance, event planning,
-                                budget applications, club promotion, and regular meeting coordination
-                                <br>&#8226;&emsp;Brainstormed club projects, and designed and executed training series
-                                on Python, HTML, JavaScript, and other programming languages for newcomers
-                                <br>&#8226;&emsp;Oversaw project progress, led the creation of a club webpage including
-                                commonly-used tools for university students, such as course management, event reminders,
-                                and resource sharing, and developed a complementary Android app integrating Python
-                                functionality and enabling club members to exhibit their Python projects
-                            </p>
-                        </li>
-                        <li>
-                            <p class="text-small-margin">
-                                <em>Computer Science and Mathematics Tutor, </em>
-                                <strong>Temple University, Japan Campus</strong>
-                                <br><em>Jun. 2023 - Dec. 2023</em>
-                                <br>&#8226;&emsp;Tailored one-on-one tutoring sessions per learning needs and fostered a
-                                supportive learning environment
-                                <br>&#8226;&emsp;Assisting first- and second-year students in understanding CS and
-                                mathematical principles, including introductory-level programming, object-oriented
-                                programming, operating systems, data structure, discrete mathematics and calculus
-                            </p>
-                        </li>
-                    </ol>
-                    <h2 id="skills">Technical Skills</h2>
-                    <hr>
-                    <ol class="publication list">
-                        <li>
-                            <p class="text-small-margin">
-                                &#8226;&emsp;<strong>Programming Languages</strong>: Python, C/C++, Java, JavaScript, Kotlin, MATLAB, PHP
-                                <br>&#8226;&emsp;<strong>Tools & Frameworks</strong>: PostgreSQL, GitHub Actions, Git, Android Studio, JetBrains Suite, PyQt5
-                                <br>&#8226;&emsp;<strong>Others</strong>: Machine Learning (NumPy, PyTorch), Object-Oriented Programming, Data Structures & Algorithms, UX Design, HTML/CSS, Microsoft Office Suite, Linux
-                            </p>
-                        </li>
-                    </ol>
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title"><span class="highlight">01.</span> About Me</h2>
+        <div style="display: grid; grid-template-columns: 3fr 2fr; gap: 4rem;">
+            <div class="fade-in">
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                    My background spans artificial intelligence, machine learning, and mobile and web development.
+                    I started with a foundation in C and Python, and now I'm exploring how research can turn bold ideas into practical systems.
+                </p>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                    One idea I’ve been passionate about is using AI to support the training of service animals,
+                    opening up new ways to improve accessibility and independence for people who need it most.
+                </p>
+                <p style="color: var(--text-secondary);">
+                    Currently pursuing a Master's in Computer Science (AI Pathway) at <strong>Brown University</strong>.
+                </p>
+            </div>
+            <!-- Simple Stat/Skill Grid for visual interest -->
+            <div class="fade-in" style="font-family: var(--font-mono); font-size: 0.9rem;">
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="color: var(--accent); margin-bottom: 0.5rem;">> Languages</div>
+                    <div style="color: var(--text-secondary);">Python, Java, C/C++, JavaScript, MATLAB, Kotlin</div>
+                </div>
+                <div>
+                    <div style="color: var(--accent); margin-bottom: 0.5rem;">> Frameworks</div>
+                    <div style="color: var(--text-secondary);">PyTorch, React.js, PostgreSQL, PyQt5, Android Studio</div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <h2 class="section-title"><span class="highlight">02.</span> Where I've Worked</h2>
+
+        <div class="fade-in">
+
+            <div class="timeline-item">
+                <span class="timeline-date">Jan 2025 – Jun 2025</span>
+                <div class="timeline-role">Intern, EdTech & Information Systems</div>
+                <div class="timeline-company">United World College Changshu China</div>
+                <ul class="timeline-points">
+                    <li>Automated data extraction using Python & SQL for large student attendance datasets.</li>
+                    <li>Designed practical tools for educators using user-centered design principles.</li>
+                    <li>Developed a club webpage and Android app integrating Python functionality.</li>
+                    <li>Delivered mathematics courses for students from Grade 9 to 12.</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-date">Jun 2024 – Dec 2024</span>
+                <div class="timeline-role">
+                    Research Assistant (Deep Learning)
+                    <a href="https://github.com/Edwardd02/TransformerProject" target="_blank" style="color: var(--accent); font-size: 0.9em; margin-left: 10px; text-decoration: none;">
+                        <i class="ph ph-arrow-square-out"></i> View Research
+                    </a>
+                </div>
+                <div class="timeline-company">Temple University (Prof. Longin Jan Latecki)</div>
+                <ul class="timeline-points">
+                    <li>Investigated long-term missing value imputation using deep learning (Transformers, MLP).</li>
+                    <li>Analyzed geological datasets (SMP Philadelphia, New Mexico) focusing on volumetric water content.</li>
+                    <li>Evaluated Python libraries (SkLearn, MissForest) against R packages.</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">Jun 2023 - Dec 2023</span>
+                <div class="timeline-role">Computer Science and Mathematics Tutor</div>
+                <div class="timeline-company">Temple University Japan</div>
+                <ul class="timeline-points">
+                    <li>Tailored one-on-one tutoring sessions per learning needs and fostered a supportive learning environment.</li>
+                    <li>Assisting first- and second-year students in understanding CS and mathematical principles, including introductory-level programming, object-oriented programming, operating systems, data structure, discrete mathematics and calculus.</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="section-title"><span class="highlight">03.</span> Projects</h2>
+
+        <div class="grid fade-in">
+
+            <!-- Project 1 -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <i class="ph ph-code" style="font-size: 2rem; color: var(--accent);"></i>
+                    <a href="https://github.com/capstone-projects-2024-fall/project-whiteboardflow" target="_blank" title="View Code">
+                        <i class="ph ph-arrow-square-out" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+                    </a>
+                </div>
+                <h3>WhiteBoard Assistant</h3>
+                <span class="card-meta">React.js • MyScript API • Database</span>
+                <p>Interactive web app for whiteboard-style coding interviews. Integrated MyScript API for handwriting interpretation and optimized UI for tablets.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">API Integration</span>
+                    <span class="tech-tag">UX</span>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <i class="ph ph-brain" style="font-size: 2rem; color: var(--accent);"></i>
+                    <a href="https://github.com/Edwardd02/Baseline-Model-for-Recognizing-Chinese-Characters" target="_blank" title="View Code">
+                        <i class="ph ph-arrow-square-out" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+                    </a>
+                </div>
+                <h3>DL for Chinese Characters</h3>
+                <span class="card-meta">Python • NumPy • Calculus</span>
+                <p>Built a Deep Learning baseline model from scratch. Implemented forward/backward propagation and gradients manually without high-level DL frameworks.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Math</span>
+                    <span class="tech-tag">Deep Learning</span>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <i class="ph ph-chart-line-up" style="font-size: 2rem; color: var(--accent);"></i>
+                    <a href="https://github.com/Edwardd02/BidAgent_Simulator" target="_blank" title="View Code">
+                        <i class="ph ph-arrow-square-out" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+                    </a>
+                </div>
+                <h3>BidAgent Simulator</h3>
+                <span class="card-meta">MATLAB • OOP</span>
+                <p>Agent-based model simulating online auction behavior. Designed autonomous bidding strategies and analyzed results using Pearson correlation.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">MATLAB</span>
+                    <span class="tech-tag">Simulation</span>
+                    <span class="tech-tag">Stats</span>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <i class="ph ph-database" style="font-size: 2rem; color: var(--accent);"></i>
+                    <a href="https://github.com/Edwardd02/PyCourseDB_Manager" target="_blank" title="View Code">
+                        <i class="ph ph-arrow-square-out" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+                    </a>
+                </div>
+                <h3>PyCourseDB Manager</h3>
+                <span class="card-meta">Python • MySQL • PyQt5</span>
+                <p>Local course database management system with a full GUI. efficient user interface for managing student and course data.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">SQL</span>
+                    <span class="tech-tag">GUI</span>
+                    <span class="tech-tag">Python</span>
+                </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <i class="ph ph-game-controller" style="font-size: 2rem; color: var(--accent);"></i>
+                    <a href="https://github.com/cis3296s24/05_Crystal_Crusader?tab=readme-ov-file" target="_blank" title="View Code">
+                        <i class="ph ph-arrow-square-out" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+                    </a>
+                </div>
+                <h3>Crystal Crusader</h3>
+                <span class="card-meta">Java • JavaFX • MVC</span>
+                <p>Text-based RPG game. Leveraged OOP principles (polymorphism, inheritance) and MVC pattern. Packaged as executable.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">Game Dev</span>
+                    <span class="tech-tag">MVC</span>
+                </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                    <i class="ph ph-trend-up" style="font-size: 2rem; color: var(--accent);"></i>
+                    <a href="file/A_Theoretical_Analysis_on_the_Integration_of_Artificial_Intelligence_(AI).pdf" target="_blank" title="View Paper">
+                        <i class="ph ph-file-pdf" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+                    </a>
+                </div>
+                <h3>AI in Employment</h3>
+                <span class="card-meta">Research Analysis</span>
+                <p>Theoretical analysis of AI integration in industry. Predicted labor market impacts and occupational structure changes.</p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Research</span>
+                    <span class="tech-tag">AI Ethics</span>
+                    <span class="tech-tag">Economics</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section id="leadership">
+        <h2 class="section-title"><span class="highlight">04.</span> Leadership</h2>
+
+        <div class="fade-in">
+            <div class="timeline-item">
+                <span class="timeline-date">Jan 2023 – Dec 2023</span>
+                <div class="timeline-role">President, Coding Club</div>
+                <div class="timeline-company">Temple University Japan</div>
+                <ul class="timeline-points">
+                    <li>Executed training series on Python, HTML, and JavaScript.</li>
+                    <li>Supervised club operations, budget applications, and project development.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="mailto:renxuan_yao@brown.edu" title="Email"><i class="ph ph-envelope"></i></a>
+            <a href="#" title="GitHub"><i class="ph ph-github-logo"></i></a>
+            <a href="#" title="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+        </div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">
+            Built by Renxuan Yao. <br>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; margin-top: 5px; display:inline-block;">brown_university.ai_pathway</span>
+        </p>
+    </footer>
+
+</main>
+
+<script>
+    // --- Canvas Animation (3D Neural Sphere) ---
+    const canvas = document.getElementById('neural-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    let points = [];
+    let mouseX = 0;
+    let mouseY = 0;
+
+    // Configuration
+    const globeRadius = 450; // Radius of the sphere
+    const pointCount = 200;  // Number of nodes
+    const connectionDistance = 120; // Max distance to draw line
+    const rotationSpeed = 0.002;
+
+    // Resize handling
+    function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+    }
+
+    // 3D Point class
+    class Point3D {
+        constructor(x, y, z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.screenX = 0;
+            this.screenY = 0;
+            this.scale = 0;
+        }
+
+        // Project 3D coordinates to 2D screen space
+        project(cx, cy, rotationX, rotationY) {
+            // Rotation Y
+            let x1 = this.x * Math.cos(rotationY) - this.z * Math.sin(rotationY);
+            let z1 = this.z * Math.cos(rotationY) + this.x * Math.sin(rotationY);
+
+            // Rotation X
+            let y1 = this.y * Math.cos(rotationX) - z1 * Math.sin(rotationX);
+            let z2 = z1 * Math.cos(rotationX) + this.y * Math.sin(rotationX);
+
+            // Perspective scale
+            const perspective = 1000;
+            this.scale = perspective / (perspective + z2);
+
+            this.screenX = cx + x1 * this.scale;
+            this.screenY = cy + y1 * this.scale;
+            this.zDepth = z2; // Store for sorting/opacity
+        }
+    }
+
+    // Initialize points on a sphere (Fibonacci Sphere Algorithm)
+    function initPoints() {
+        points = [];
+        const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle
+
+        for (let i = 0; i < pointCount; i++) {
+            const y = 1 - (i / (pointCount - 1)) * 2; // y goes from 1 to -1
+            const radius = Math.sqrt(1 - y * y); // radius at y
+            const theta = phi * i; // golden angle increment
+
+            const x = Math.cos(theta) * radius;
+            const z = Math.sin(theta) * radius;
+
+            // Scale to globe radius
+            points.push(new Point3D(
+                x * globeRadius,
+                y * globeRadius,
+                z * globeRadius
+            ));
+        }
+    }
+
+    let rotX = 0;
+    let rotY = 0;
+
+    function animate() {
+        ctx.fillStyle = '#050505'; // Clear with background color
+        ctx.fillRect(0, 0, width, height);
+
+        const cx = width / 2;
+        const cy = height / 2;
+
+        // Auto rotation + Mouse influence
+        rotY += rotationSpeed;
+        const targetRotX = (mouseY - height / 2) * 0.001;
+        const targetRotY = (mouseX - width / 2) * 0.001;
+
+        // Blend auto rotation with mouse interaction
+        const finalRotX = targetRotX * 0.5;
+        const finalRotY = rotY + targetRotY * 0.5;
+
+        // 1. Project all points
+        points.forEach(p => p.project(cx, cy, finalRotX, finalRotY));
+
+        // 2. Sort points by depth (zDepth) so back points draw first
+        // (Optional for lines, but good for nodes if we drew them as discs)
+        // points.sort((a, b) => b.zDepth - a.zDepth);
+
+        // 3. Draw Connections
+        ctx.lineWidth = 1;
+        for (let i = 0; i < points.length; i++) {
+            const p1 = points[i];
+
+            // Skip points that are "behind" the camera too much (optional culling)
+            // if (p1.scale < 0.5) continue;
+
+            // Check connections with other points
+            // Optimization: Only check a subset or use spatial partition.
+            // For 200 points, simple loop is fine (~20k checks).
+            for (let j = i + 1; j < points.length; j++) {
+                const p2 = points[j];
+
+                // Calculate rough 3D distance first (optimization)
+                const dx = p1.x - p2.x;
+                const dy = p1.y - p2.y;
+                const dz = p1.z - p2.z;
+                const distSq = dx*dx + dy*dy + dz*dz;
+
+                // Threshold squared (avoid sqrt)
+                if (distSq < connectionDistance * connectionDistance * 4) { // Multiplier for 3D space variance
+
+                    // Now check 2D screen distance for opacity logic
+                    const sdx = p1.screenX - p2.screenX;
+                    const sdy = p1.screenY - p2.screenY;
+                    const screenDist = Math.sqrt(sdx*sdx + sdy*sdy);
+
+                    if (screenDist < connectionDistance) {
+                        const opacity = (1 - screenDist / connectionDistance) * p1.scale;
+
+                        // Cyberpunk Colors: Mix Cyan and Purple based on depth
+                        if (p1.zDepth < 0) {
+                            ctx.strokeStyle = `rgba(0, 240, 255, ${opacity * 0.6})`; // Cyan (Front)
+                        } else {
+                            ctx.strokeStyle = `rgba(112, 0, 255, ${opacity * 0.3})`; // Purple (Back)
+                        }
+
+                        ctx.beginPath();
+                        ctx.moveTo(p1.screenX, p1.screenY);
+                        ctx.lineTo(p2.screenX, p2.screenY);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw Nodes
+            const size = 2 * p1.scale;
+            ctx.fillStyle = p1.zDepth < 0 ? '#fff' : '#555';
+            ctx.beginPath();
+            ctx.arc(p1.screenX, p1.screenY, size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    // Input Handling
+    window.addEventListener('resize', () => {
+        resize();
+        initPoints();
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    // Start
+    resize();
+    initPoints();
+    animate();
+
+
+    // --- Scroll Animations (Intersection Observer) ---
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+    });
+
+</script>
 </body>
-
-
-
 </html>
-
-
-
-
