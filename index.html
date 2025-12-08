@@ -6,467 +6,158 @@
     <title>Renxuan Yao | AI Researcher</title>
     <meta name="description" content="Portfolio of Renxuan Yao, Brown University Graduate Student and AI Researcher.">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-
-    <!-- Icons (Phosphor Icons for lightweight SVG) -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Libraries from your snippet -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
-        :root {
-            --bg-color: #050505;
-            --text-primary: #e0e0e0;
-            --text-secondary: #94a3b8;
-            --accent: #00f0ff; /* Cyberpunk Cyan */
-            --accent-dim: rgba(0, 240, 255, 0.1);
-            --accent-secondary: #7000ff;
-            --card-bg: rgba(20, 20, 25, 0.8);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --font-mono: 'JetBrains Mono', monospace;
-            --font-display: 'Space Grotesk', sans-serif;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: var(--font-display);
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: white;
+            overflow-x: hidden; /* Allow vertical scroll */
         }
 
-        /* --- Custom Scrollbar --- */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent);
-        }
-
-        /* --- Canvas Background --- */
-        #neural-canvas {
+        #canvas-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            opacity: 1; /* Increased opacity for the new effect */
+            z-index: -1; /* Behind everything */
         }
 
-        /* --- Layout --- */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
         }
 
-        section {
-            padding: 6rem 0;
-        }
-
-        /* --- Typography & Glitch Effect --- */
-        h1, h2, h3 {
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .glitch {
-            position: relative;
-            font-family: var(--font-mono);
-            font-size: 4rem;
-            line-height: 1.1;
-        }
-
-        @media (max-width: 768px) {
-            .glitch { font-size: 2.5rem; }
-        }
-
-        .glitch::before, .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-color);
-        }
-
-        .glitch::before {
-            left: 2px;
-            text-shadow: -1px 0 #ff00c1;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
-        }
-
-        .glitch::after {
-            left: -2px;
-            text-shadow: -1px 0 #00fff9;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-anim {
-            0% { clip: rect(30px, 9999px, 10px, 0); }
-            5% { clip: rect(80px, 9999px, 90px, 0); }
-            10% { clip: rect(10px, 9999px, 30px, 0); }
-            15% { clip: rect(60px, 9999px, 20px, 0); }
-            100% { clip: rect(50px, 9999px, 80px, 0); }
-        }
-        @keyframes glitch-anim2 {
-            0% { clip: rect(10px, 9999px, 60px, 0); }
-            5% { clip: rect(40px, 9999px, 10px, 0); }
-            10% { clip: rect(90px, 9999px, 50px, 0); }
-            15% { clip: rect(20px, 9999px, 30px, 0); }
-            100% { clip: rect(70px, 9999px, 20px, 0); }
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 3rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .section-title::after {
-            content: '';
-            height: 1px;
-            background: linear-gradient(90deg, var(--accent), transparent);
-            flex-grow: 1;
-            max-width: 300px;
-        }
-
-        .highlight {
-            color: var(--accent);
-        }
-
-        /* --- Navigation --- */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 0;
-            background: rgba(5, 5, 5, 0.8);
+        /* Glassmorphism utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
-            z-index: 100;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .glass-panel:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .logo {
-            font-family: var(--font-mono);
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #fff;
+        .interactive-element {
+            transition: all 0.3s ease;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
+        .interactive-element:hover {
+            transform: translateY(-2px);
         }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-            font-family: var(--font-mono);
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; } /* Simplified mobile nav for brevity */
-        }
-
-        /* --- Hero Section --- */
-        #home {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-top: 0;
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .subtitle {
-            font-family: var(--font-mono);
-            color: var(--accent);
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .bio-text {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin: 2rem 0;
-            max-width: 600px;
-        }
-
-        .cta-btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-weight: bold;
-            transition: all 0.3s;
-            background: transparent;
-            cursor: pointer;
-        }
-
-        .cta-btn:hover {
-            background: var(--accent-dim);
-            box-shadow: 0 0 20px var(--accent-dim);
-        }
-
-        /* --- Cards (Projects/Experience) --- */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 2rem;
-            border-radius: 8px;
-            transition: transform 0.3s, border-color 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        .card h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.25rem;
-        }
-
-        .card-meta {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: auto;
-        }
-
-        .tech-tag {
-            font-size: 0.75rem;
-            font-family: var(--font-mono);
-            background: rgba(255,255,255,0.05);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            color: #bbb;
-        }
-
-        /* --- Experience Timeline --- */
-        .timeline-item {
-            border-left: 2px solid var(--card-border);
-            padding-left: 2rem;
-            padding-bottom: 3rem;
-            position: relative;
-        }
-
-        .timeline-item:last-child {
-            border-left: 2px solid transparent;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -5px;
-            top: 0;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        .timeline-date {
-            font-family: var(--font-mono);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .timeline-role {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .timeline-company {
-            color: var(--accent);
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .timeline-points li {
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            list-style-position: inside;
-            font-size: 0.95rem;
-        }
-
-        /* --- Footer --- */
-        footer {
-            text-align: center;
-            padding: 4rem 0;
-            border-top: 1px solid var(--card-border);
-            margin-top: 4rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .social-links a {
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            transition: color 0.3s;
-        }
-
-        .social-links a:hover {
-            color: var(--accent);
-        }
-
-        /* --- Animations --- */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
     </style>
 </head>
 <body>
 
-<!-- Canvas Background -->
-<canvas id="neural-canvas"></canvas>
+<!-- 3D Background Container -->
+<div id="canvas-container"></div>
 
 <!-- Navigation -->
-<nav>
-    <div class="container nav-content">
-        <div class="logo">RY<span class="highlight">_</span></div>
-        <div class="nav-links">
-            <a href="#about">/about</a>
-            <a href="#experience">/experience</a>
-            <a href="#projects">/projects</a>
-            <a href="#leadership">/leadership</a>
-            <a href="#skills">/skills</a>
-            <a href="mailto:renxuan_yao@brown.edu">/contact</a>
-        </div>
+<nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center backdrop-blur-sm bg-black/20">
+    <!-- Logo / Name -->
+    <a href="#home" class="text-xl font-bold tracking-tight text-white/90 hover:text-white transition-colors">
+        RY<span class="text-emerald-400">_</span>
+    </a>
+
+    <!-- Desktop Menu (Content Links) -->
+    <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+        <a href="#about" class="hover:text-emerald-400 transition-colors">/about</a>
+        <a href="#experience" class="hover:text-emerald-400 transition-colors">/experience</a>
+        <a href="#projects" class="hover:text-emerald-400 transition-colors">/projects</a>
+    </div>
+
+    <!-- Social Icons (Top Right as requested) -->
+    <div class="flex items-center gap-6">
+        <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group" title="Resume">
+            <span class="text-xs font-light tracking-widest hidden lg:block opacity-0 group-hover:opacity-100 transition-opacity">RESUME</span>
+            <i class="fa-solid fa-file-pdf text-lg"></i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group" title="GitHub">
+            <span class="text-xs font-light tracking-widest hidden lg:block opacity-0 group-hover:opacity-100 transition-opacity">GITHUB</span>
+            <i class="fa-brands fa-github text-lg"></i>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group" title="LinkedIn">
+            <span class="text-xs font-light tracking-widest hidden lg:block opacity-0 group-hover:opacity-100 transition-opacity">LINKEDIN</span>
+            <i class="fa-brands fa-linkedin text-lg"></i>
+        </a>
     </div>
 </nav>
 
 <!-- Main Content -->
-<main class="container">
+<div class="relative z-10">
 
     <!-- Hero Section -->
-    <section id="home">
-        <div class="hero-content">
-            <span class="subtitle">Hi, my name is</span>
-            <h1 class="glitch" data-text="Renxuan Yao.">Renxuan Yao.</h1>
-
-            <p class="bio-text">
-                Graduate Student at <strong>Brown University</strong>. AI Researcher & Full Stack Developer.
-                <br><br>
-                I believe AI should be more than just powerful algorithms—it should be a tool to make life better, more accessible, and more humane.
-            </p>
-            <div style="margin-top: 2rem;">
-                <a href="#projects" class="cta-btn">Check out my work</a>
-            </div>
+    <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center px-4">
+        <h2 class="text-emerald-400 font-medium tracking-[0.2em] mb-4 text-sm uppercase animate-fade-in-up">AI Researcher & Developer</h2>
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+            Renxuan Yao
+        </h1>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light mb-8">
+            Graduate Student at <strong class="text-white font-medium">Brown University</strong>.<br>
+            Exploring how AI can make life more accessible, humane, and intelligent.
+        </p>
+        <div class="flex gap-4">
+            <a href="#projects" class="border border-white/20 hover:border-white/80 bg-white/5 hover:bg-white/10 text-white px-8 py-3 rounded-full backdrop-blur-sm transition-all duration-300">
+                View Work
+            </a>
+            <a href="mailto:renxuan_yao@brown.edu" class="text-gray-400 hover:text-white px-8 py-3 transition-colors flex items-center gap-2">
+                Contact Me <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about">
-        <h2 class="section-title"><span class="highlight">01.</span> About Me</h2>
-        <div style="display: grid; grid-template-columns: 3fr 2fr; gap: 4rem;">
-            <div class="fade-in">
-                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+    <section id="about" class="py-24 px-6 md:px-12 max-w-6xl mx-auto">
+        <div class="flex items-center gap-4 mb-12">
+            <span class="text-emerald-400 font-mono text-sm">01.</span>
+            <h2 class="text-3xl font-bold text-white">About Me</h2>
+            <div class="h-px bg-white/10 flex-grow max-w-xs"></div>
+        </div>
+
+        <div class="grid md:grid-cols-5 gap-12">
+            <div class="md:col-span-3 text-gray-400 leading-relaxed space-y-6">
+                <p>
                     My background spans artificial intelligence, machine learning, and mobile and web development.
                     I started with a foundation in C and Python, and now I'm exploring how research can turn bold ideas into practical systems.
                 </p>
-                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                <p>
                     One idea I’ve been passionate about is using AI to support the training of service animals,
                     opening up new ways to improve accessibility and independence for people who need it most.
                 </p>
-                <p style="color: var(--text-secondary);">
-                    Currently pursuing a Master's in Computer Science (AI Pathway) at <strong>Brown University</strong>.
+                <p>
+                    Currently pursuing a Master's in Computer Science (AI Pathway) at <span class="text-white">Brown University</span>.
                 </p>
             </div>
-            <!-- Simple Stat/Skill Grid for visual interest -->
-            <div class="fade-in" style="font-family: var(--font-mono); font-size: 0.9rem;">
-                <div style="margin-bottom: 1.5rem;">
-                    <div style="color: var(--accent); margin-bottom: 0.5rem;">> Languages</div>
-                    <div style="color: var(--text-secondary);">Python, Java, SQL MATLAB, Typescript, C/C++, JavaScript, Swift, Kotlin, PHP, Assembly
+            <div class="md:col-span-2 space-y-6">
+                <div class="glass-panel p-6 rounded-lg">
+                    <h3 class="text-emerald-400 font-medium mb-4 text-sm uppercase tracking-wider">Languages</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-sm text-gray-300">Python</span>
+                        <span class="text-sm text-gray-300">Java</span>
+                        <span class="text-sm text-gray-300">SQL</span>
+                        <span class="text-sm text-gray-300">MATLAB</span>
+                        <span class="text-sm text-gray-300">TypeScript</span>
+                        <span class="text-sm text-gray-300">C/C++</span>
                     </div>
                 </div>
-                <div>
-                    <div style="color: var(--accent); margin-bottom: 0.5rem;">> Frameworks</div>
-                    <div style="color: var(--text-secondary);">AWS, SQL(Postgre), MongoDB, Docker, MySQL, Linux, Node.js, GitHub Actions, Git, Android Studio, JetBrains Suite, PyQt5
-                    </div>
-                </div>
-                <div>
-                    <div style="color: var(--accent); margin-bottom: 0.5rem;">> Others</div>
-                    <div style="color: var(--text-secondary);"> Object-Oriented Programming, HTML/CSS, Data Modeling, Data Structures & Algorithms, Full-Stack Development, Data Analytics, ML/DL/NLP, UX Design, Microsoft Office Suite
+                <div class="glass-panel p-6 rounded-lg">
+                    <h3 class="text-emerald-400 font-medium mb-4 text-sm uppercase tracking-wider">Frameworks</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-sm text-gray-300">AWS</span>
+                        <span class="text-sm text-gray-300">MongoDB</span>
+                        <span class="text-sm text-gray-300">Docker</span>
+                        <span class="text-sm text-gray-300">React</span>
+                        <span class="text-sm text-gray-300">PyQt5</span>
+                        <span class="text-sm text-gray-300">Node.js</span>
                     </div>
                 </div>
             </div>
@@ -474,162 +165,174 @@
     </section>
 
     <!-- Experience Section -->
-    <section id="experience">
-        <h2 class="section-title"><span class="highlight">02.</span> Where I've Worked</h2>
+    <section id="experience" class="py-24 px-6 md:px-12 max-w-4xl mx-auto">
+        <div class="flex items-center gap-4 mb-16">
+            <span class="text-emerald-400 font-mono text-sm">02.</span>
+            <h2 class="text-3xl font-bold text-white">Where I've Worked</h2>
+            <div class="h-px bg-white/10 flex-grow max-w-xs"></div>
+        </div>
 
-        <div class="fade-in">
+        <div class="space-y-12 border-l border-white/10 ml-3">
 
-            <div class="timeline-item">
-                <span class="timeline-date">Jan 2025 – Jun 2025</span>
-                <div class="timeline-role">Intern, EdTech & Information Systems</div>
-                <div class="timeline-company">United World College Changshu China</div>
-                <ul class="timeline-points">
+            <!-- Job 1 -->
+            <div class="relative pl-8 md:pl-12 group">
+                <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                <span class="text-sm font-mono text-emerald-400 mb-1 block">Jan 2025 – Jun 2025</span>
+                <h3 class="text-xl font-bold text-white mb-1">Intern, EdTech & Information Systems</h3>
+                <div class="text-gray-400 mb-4">United World College Changshu China</div>
+                <ul class="list-disc list-outside ml-4 text-gray-400 space-y-2 text-sm leading-relaxed marker:text-emerald-500/50">
                     <li>Automated data extraction using Python & SQL for large student attendance datasets.</li>
                     <li>Designed practical tools for educators using user-centered design principles.</li>
                     <li>Developed a club webpage and Android app integrating Python functionality.</li>
-                    <li>Delivered mathematics courses for students from Grade 9 to 12.</li>
                 </ul>
             </div>
 
-            <div class="timeline-item">
-                <span class="timeline-date">Jun 2024 – Dec 2024</span>
-                <div class="timeline-role">
-                    Research Assistant (Deep Learning)
-                    <a href="https://github.com/Edwardd02/TransformerProject" target="_blank" style="color: var(--accent); font-size: 0.9em; margin-left: 10px; text-decoration: none;">
-                        <i class="ph ph-arrow-square-out"></i> View Research
-                    </a>
-                </div>
-                <div class="timeline-company">Temple University (Prof. Longin Jan Latecki)</div>
-                <ul class="timeline-points">
+            <!-- Job 2 -->
+            <div class="relative pl-8 md:pl-12 group">
+                <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-emerald-500/50 group-hover:bg-emerald-500 transition-colors"></div>
+                <span class="text-sm font-mono text-emerald-400 mb-1 block">Jun 2024 – Dec 2024</span>
+                <h3 class="text-xl font-bold text-white mb-1">Research Assistant (Deep Learning)</h3>
+                <div class="text-gray-400 mb-4">Temple University (Prof. Longin Jan Latecki)</div>
+                <ul class="list-disc list-outside ml-4 text-gray-400 space-y-2 text-sm leading-relaxed marker:text-emerald-500/50">
                     <li>Investigated long-term missing value imputation using deep learning (Transformers, MLP).</li>
-                    <li>Analyzed geological datasets (SMP Philadelphia, New Mexico) focusing on volumetric water content.</li>
+                    <li>Analyzed geological datasets focusing on volumetric water content.</li>
                     <li>Evaluated Python libraries (SkLearn, MissForest) against R packages.</li>
                 </ul>
             </div>
-            <div class="timeline-item">
-                <span class="timeline-date">Jun 2023 - Dec 2023</span>
-                <div class="timeline-role">Computer Science and Mathematics Tutor</div>
-                <div class="timeline-company">Temple University Japan</div>
-                <ul class="timeline-points">
-                    <li>Tailored one-on-one tutoring sessions per learning needs and fostered a supportive learning environment.</li>
-                    <li>Assisting first- and second-year students in understanding CS and mathematical principles, including introductory-level programming, object-oriented programming, operating systems, data structure, discrete mathematics and calculus.</li>
+
+            <!-- Job 3 -->
+            <div class="relative pl-8 md:pl-12 group">
+                <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-emerald-500/50 group-hover:bg-emerald-500 transition-colors"></div>
+                <span class="text-sm font-mono text-emerald-400 mb-1 block">Jun 2023 - Dec 2023</span>
+                <h3 class="text-xl font-bold text-white mb-1">CS and Mathematics Tutor</h3>
+                <div class="text-gray-400 mb-4">Temple University Japan</div>
+                <ul class="list-disc list-outside ml-4 text-gray-400 space-y-2 text-sm leading-relaxed marker:text-emerald-500/50">
+                    <li>Tailored one-on-one tutoring sessions for introductory programming, OOP, data structures, and calculus.</li>
                 </ul>
             </div>
-
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section id="projects">
-        <h2 class="section-title"><span class="highlight">03.</span> Projects</h2>
+    <section id="projects" class="py-24 px-6 md:px-12 max-w-6xl mx-auto">
+        <div class="flex items-center gap-4 mb-12">
+            <span class="text-emerald-400 font-mono text-sm">03.</span>
+            <h2 class="text-3xl font-bold text-white">Projects</h2>
+            <div class="h-px bg-white/10 flex-grow max-w-xs"></div>
+        </div>
 
-        <div class="grid fade-in">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <!-- Project 1 -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <i class="ph ph-code" style="font-size: 2rem; color: var(--accent);"></i>
-                    <a href="https://github.com/capstone-projects-2024-fall/project-whiteboardflow" target="_blank" title="View Code">
-                        <i class="ph ph-arrow-square-out" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col h-full group">
+                <div class="flex justify-between items-start mb-6">
+                    <i class="fa-solid fa-pen-to-square text-3xl text-emerald-400"></i>
+                    <a href="https://github.com/capstone-projects-2024-fall/project-whiteboardflow" class="text-gray-500 hover:text-white transition-colors">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xl"></i>
                     </a>
                 </div>
-                <h3>WhiteBoard Assistant</h3>
-                <span class="card-meta">React.js • MyScript API • Database</span>
-                <p>Interactive web app for whiteboard-style coding interviews. Integrated MyScript API for handwriting interpretation and optimized UI for tablets.</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">React</span>
-                    <span class="tech-tag">API Integration</span>
-                    <span class="tech-tag">UX</span>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">WhiteBoard Assistant</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                    Interactive web app for whiteboard-style coding interviews. Integrated MyScript API for handwriting interpretation and optimized UI for tablets.
+                </p>
+                <div class="flex gap-3 text-xs font-mono text-gray-500">
+                    <span>React</span>
+                    <span>API</span>
+                    <span>UX/UI</span>
                 </div>
             </div>
 
             <!-- Project 2 -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <i class="ph ph-brain" style="font-size: 2rem; color: var(--accent);"></i>
-                    <a href="https://github.com/Edwardd02/Baseline-Model-for-Recognizing-Chinese-Characters" target="_blank" title="View Code">
-                        <i class="ph ph-arrow-square-out" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col h-full group">
+                <div class="flex justify-between items-start mb-6">
+                    <i class="fa-solid fa-language text-3xl text-emerald-400"></i>
+                    <a href="https://github.com/Edwardd02/Baseline-Model-for-Recognizing-Chinese-Characters" class="text-gray-500 hover:text-white transition-colors">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xl"></i>
                     </a>
                 </div>
-                <h3>DL for Chinese Characters</h3>
-                <span class="card-meta">Python • NumPy • Calculus</span>
-                <p>Built a Deep Learning baseline model from scratch. Implemented forward/backward propagation and gradients manually without high-level DL frameworks.</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">Math</span>
-                    <span class="tech-tag">Deep Learning</span>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">DL for Chinese Characters</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                    Deep Learning baseline model built from scratch. Implemented forward/backward propagation manually without high-level frameworks.
+                </p>
+                <div class="flex gap-3 text-xs font-mono text-gray-500">
+                    <span>Python</span>
+                    <span>NumPy</span>
+                    <span>Math</span>
                 </div>
             </div>
 
             <!-- Project 3 -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <i class="ph ph-chart-line-up" style="font-size: 2rem; color: var(--accent);"></i>
-                    <a href="https://github.com/Edwardd02/BidAgent_Simulator" target="_blank" title="View Code">
-                        <i class="ph ph-arrow-square-out" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col h-full group">
+                <div class="flex justify-between items-start mb-6">
+                    <i class="fa-solid fa-gavel text-3xl text-emerald-400"></i>
+                    <a href="https://github.com/Edwardd02/BidAgent_Simulator" class="text-gray-500 hover:text-white transition-colors">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xl"></i>
                     </a>
                 </div>
-                <h3>BidAgent Simulator</h3>
-                <span class="card-meta">MATLAB • OOP</span>
-                <p>Agent-based model simulating online auction behavior. Designed autonomous bidding strategies and analyzed results using Pearson correlation.</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">MATLAB</span>
-                    <span class="tech-tag">Simulation</span>
-                    <span class="tech-tag">Stats</span>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">BidAgent Simulator</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                    Agent-based model simulating online auction behavior. Designed autonomous bidding strategies and analyzed results using Pearson correlation.
+                </p>
+                <div class="flex gap-3 text-xs font-mono text-gray-500">
+                    <span>MATLAB</span>
+                    <span>OOP</span>
+                    <span>Stats</span>
                 </div>
             </div>
 
             <!-- Project 4 -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <i class="ph ph-database" style="font-size: 2rem; color: var(--accent);"></i>
-                    <a href="https://github.com/Edwardd02/PyCourseDB_Manager" target="_blank" title="View Code">
-                        <i class="ph ph-arrow-square-out" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col h-full group">
+                <div class="flex justify-between items-start mb-6">
+                    <i class="fa-solid fa-database text-3xl text-emerald-400"></i>
+                    <a href="https://github.com/Edwardd02/PyCourseDB_Manager" class="text-gray-500 hover:text-white transition-colors">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xl"></i>
                     </a>
                 </div>
-                <h3>PyCourseDB Manager</h3>
-                <span class="card-meta">Python • MySQL • PyQt5</span>
-                <p>Local course database management system with a full GUI. efficient user interface for managing student and course data.</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">SQL</span>
-                    <span class="tech-tag">GUI</span>
-                    <span class="tech-tag">Python</span>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">PyCourseDB Manager</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                    Local course database management system with a full GUI for managing student and course data efficiently.
+                </p>
+                <div class="flex gap-3 text-xs font-mono text-gray-500">
+                    <span>Python</span>
+                    <span>MySQL</span>
+                    <span>PyQt5</span>
                 </div>
             </div>
 
             <!-- Project 5 -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <i class="ph ph-game-controller" style="font-size: 2rem; color: var(--accent);"></i>
-                    <a href="https://github.com/cis3296s24/05_Crystal_Crusader?tab=readme-ov-file" target="_blank" title="View Code">
-                        <i class="ph ph-arrow-square-out" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col h-full group">
+                <div class="flex justify-between items-start mb-6">
+                    <i class="fa-solid fa-gamepad text-3xl text-emerald-400"></i>
+                    <a href="https://github.com/cis3296s24/05_Crystal_Crusader?tab=readme-ov-file" class="text-gray-500 hover:text-white transition-colors">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xl"></i>
                     </a>
                 </div>
-                <h3>Crystal Crusader</h3>
-                <span class="card-meta">Java • JavaFX • MVC</span>
-                <p>Text-based RPG game. Leveraged OOP principles (polymorphism, inheritance) and MVC pattern. Packaged as executable.</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">Java</span>
-                    <span class="tech-tag">Game Dev</span>
-                    <span class="tech-tag">MVC</span>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">Crystal Crusader</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                    Text-based RPG game. Leveraged OOP principles (polymorphism, inheritance) and MVC pattern. Packaged as executable.
+                </p>
+                <div class="flex gap-3 text-xs font-mono text-gray-500">
+                    <span>Java</span>
+                    <span>JavaFX</span>
+                    <span>MVC</span>
                 </div>
             </div>
 
             <!-- Project 6 -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <i class="ph ph-trend-up" style="font-size: 2rem; color: var(--accent);"></i>
-                    <a href="file/A_Theoretical_Analysis_on_the_Integration_of_Artificial_Intelligence_(AI).pdf" target="_blank" title="View Paper">
-                        <i class="ph ph-file-pdf" style="font-size: 1.5rem; color: var(--text-secondary); transition: color 0.3s;"></i>
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col h-full group">
+                <div class="flex justify-between items-start mb-6">
+                    <i class="fa-solid fa-newspaper text-3xl text-emerald-400"></i>
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors">
+                        <i class="fa-solid fa-file-pdf text-xl"></i>
                     </a>
                 </div>
-                <h3>AI in Employment</h3>
-                <span class="card-meta">Research Analysis</span>
-                <p>Theoretical analysis of AI integration in industry. Predicted labor market impacts and occupational structure changes.</p>
-                <div class="tech-stack">
-                    <span class="tech-tag">Research</span>
-                    <span class="tech-tag">AI Ethics</span>
-                    <span class="tech-tag">Economics</span>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">AI in Employment</h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
+                    Theoretical analysis of AI integration in industry. Predicted labor market impacts and occupational structure changes.
+                </p>
+                <div class="flex gap-3 text-xs font-mono text-gray-500">
+                    <span>Research</span>
+                    <span>Economics</span>
                 </div>
             </div>
 
@@ -637,231 +340,145 @@
     </section>
 
     <!-- Leadership Section -->
-    <section id="leadership">
-        <h2 class="section-title"><span class="highlight">04.</span> Leadership</h2>
+    <section id="leadership" class="py-24 px-6 md:px-12 max-w-4xl mx-auto mb-20">
+        <div class="flex items-center gap-4 mb-12">
+            <span class="text-emerald-400 font-mono text-sm">04.</span>
+            <h2 class="text-3xl font-bold text-white">Leadership</h2>
+            <div class="h-px bg-white/10 flex-grow max-w-xs"></div>
+        </div>
 
-        <div class="fade-in">
-            <div class="timeline-item">
-                <span class="timeline-date">Jan 2023 – Dec 2023</span>
-                <div class="timeline-role">President, Coding Club</div>
-                <div class="timeline-company">Temple University Japan</div>
-                <ul class="timeline-points">
-                    <li>Executed training series on Python, HTML, and JavaScript.</li>
-                    <li>Supervised club operations, budget applications, and project development.</li>
-                </ul>
+        <div class="glass-panel p-8 rounded-lg border-l-4 border-l-emerald-400">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                <h3 class="text-xl font-bold text-white">President, Coding Club</h3>
+                <span class="text-sm font-mono text-gray-500">Jan 2023 – Dec 2023</span>
             </div>
+            <div class="text-emerald-400 mb-4 text-sm font-medium">Temple University Japan</div>
+            <p class="text-gray-400 text-sm">
+                Executed training series on Python, HTML, and JavaScript. Supervised club operations, budget applications, and project development.
+            </p>
         </div>
     </section>
 
-    <footer>
-        <div class="social-links">
-            <a href="mailto:renxuan_yao@brown.edu" title="Email"><i class="ph ph-envelope"></i></a>
-            <a href="#" title="GitHub"><i class="ph ph-github-logo"></i></a>
-            <a href="#" title="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
-        </div>
-        <p style="color: var(--text-secondary); font-size: 0.9rem;">
-            Built by Renxuan Yao. <br>
-            <span style="font-family: var(--font-mono); font-size: 0.8rem; margin-top: 5px; display:inline-block;">brown_university.ai_pathway</span>
-        </p>
+    <!-- Footer -->
+    <footer class="py-8 text-center text-gray-600 text-sm relative z-10 glass-panel border-x-0 border-b-0">
+        <p>Designed & Built by Renxuan Yao.</p>
+        <p class="mt-2 font-mono text-xs">renxuanyao@brown.edu</p>
     </footer>
 
-</main>
+</div>
 
+<!-- Script from your snippet -->
 <script>
-    // --- Canvas Animation (3D Neural Sphere) ---
-    const canvas = document.getElementById('neural-canvas');
-    const ctx = canvas.getContext('2d');
+    // --- THREE.JS SETUP ---
+    const container = document.getElementById('canvas-container');
 
-    let width, height;
-    let points = [];
+    // Scene Setup
+    const scene = new THREE.Scene();
+    // Add subtle fog for depth
+    scene.fog = new THREE.FogExp2(0x050505, 0.002);
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 30;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // --- PARTICLES ---
+    const geometry = new THREE.BufferGeometry();
+    const count = 2000;
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+
+    const color1 = new THREE.Color(0x10b981); // Emerald
+    const color2 = new THREE.Color(0x3b82f6); // Blue
+
+    for (let i = 0; i < count; i++) {
+        // Create a cloud distribution
+        const x = (Math.random() - 0.5) * 80;
+        const y = (Math.random() - 0.5) * 80;
+        const z = (Math.random() - 0.5) * 80;
+
+        positions[i * 3] = x;
+        positions[i * 3 + 1] = y;
+        positions[i * 3 + 2] = z;
+
+        // Mix colors based on position
+        const mixedColor = color1.clone().lerp(color2, Math.random());
+        colors[i * 3] = mixedColor.r;
+        colors[i * 3 + 1] = mixedColor.g;
+        colors[i * 3 + 2] = mixedColor.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+        size: 0.3,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending
+    });
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    // --- INTERACTION STATE ---
     let mouseX = 0;
     let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
 
-    // Configuration
-    const globeRadius = 450; // Radius of the sphere
-    const pointCount = 200;  // Number of nodes
-    const connectionDistance = 120; // Max distance to draw line
-    const rotationSpeed = 0.002;
+    const windowHalfX = window.innerWidth / 2;
+    const windowHalfY = window.innerHeight / 2;
 
-    // Resize handling
-    function resize() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-    }
+    // Event Listener for Mouse Movement
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX - windowHalfX);
+        mouseY = (event.clientY - windowHalfY);
+    });
 
-    // 3D Point class
-    class Point3D {
-        constructor(x, y, z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.screenX = 0;
-            this.screenY = 0;
-            this.scale = 0;
+    // Event Listener for Touch Movement (Mobile)
+    document.addEventListener('touchmove', (event) => {
+        if (event.touches.length > 0) {
+            mouseX = (event.touches[0].clientX - windowHalfX);
+            mouseY = (event.touches[0].clientY - windowHalfY);
         }
+    });
 
-        // Project 3D coordinates to 2D screen space
-        project(cx, cy, rotationX, rotationY) {
-            // Rotation Y
-            let x1 = this.x * Math.cos(rotationY) - this.z * Math.sin(rotationY);
-            let z1 = this.z * Math.cos(rotationY) + this.x * Math.sin(rotationY);
+    // Handle Window Resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 
-            // Rotation X
-            let y1 = this.y * Math.cos(rotationX) - z1 * Math.sin(rotationX);
-            let z2 = z1 * Math.cos(rotationX) + this.y * Math.sin(rotationX);
-
-            // Perspective scale
-            const perspective = 1000;
-            this.scale = perspective / (perspective + z2);
-
-            this.screenX = cx + x1 * this.scale;
-            this.screenY = cy + y1 * this.scale;
-            this.zDepth = z2; // Store for sorting/opacity
-        }
-    }
-
-    // Initialize points on a sphere (Fibonacci Sphere Algorithm)
-    function initPoints() {
-        points = [];
-        const phi = Math.PI * (3 - Math.sqrt(5)); // Golden angle
-
-        for (let i = 0; i < pointCount; i++) {
-            const y = 1 - (i / (pointCount - 1)) * 2; // y goes from 1 to -1
-            const radius = Math.sqrt(1 - y * y); // radius at y
-            const theta = phi * i; // golden angle increment
-
-            const x = Math.cos(theta) * radius;
-            const z = Math.sin(theta) * radius;
-
-            // Scale to globe radius
-            points.push(new Point3D(
-                x * globeRadius,
-                y * globeRadius,
-                z * globeRadius
-            ));
-        }
-    }
-
-    let rotX = 0;
-    let rotY = 0;
+    // --- ANIMATION LOOP ---
+    const clock = new THREE.Clock();
 
     function animate() {
-        ctx.fillStyle = '#050505'; // Clear with background color
-        ctx.fillRect(0, 0, width, height);
-
-        const cx = width / 2;
-        const cy = height / 2;
-
-        // Auto rotation + Mouse influence
-        rotY += rotationSpeed;
-        const targetRotX = (mouseY - height / 2) * 0.001;
-        const targetRotY = (mouseX - width / 2) * 0.001;
-
-        // Blend auto rotation with mouse interaction
-        const finalRotX = targetRotX * 0.5;
-        const finalRotY = rotY + targetRotY * 0.5;
-
-        // 1. Project all points
-        points.forEach(p => p.project(cx, cy, finalRotX, finalRotY));
-
-        // 2. Sort points by depth (zDepth) so back points draw first
-        // (Optional for lines, but good for nodes if we drew them as discs)
-        // points.sort((a, b) => b.zDepth - a.zDepth);
-
-        // 3. Draw Connections
-        ctx.lineWidth = 1;
-        for (let i = 0; i < points.length; i++) {
-            const p1 = points[i];
-
-            // Skip points that are "behind" the camera too much (optional culling)
-            // if (p1.scale < 0.5) continue;
-
-            // Check connections with other points
-            // Optimization: Only check a subset or use spatial partition.
-            // For 200 points, simple loop is fine (~20k checks).
-            for (let j = i + 1; j < points.length; j++) {
-                const p2 = points[j];
-
-                // Calculate rough 3D distance first (optimization)
-                const dx = p1.x - p2.x;
-                const dy = p1.y - p2.y;
-                const dz = p1.z - p2.z;
-                const distSq = dx*dx + dy*dy + dz*dz;
-
-                // Threshold squared (avoid sqrt)
-                if (distSq < connectionDistance * connectionDistance * 4) { // Multiplier for 3D space variance
-
-                    // Now check 2D screen distance for opacity logic
-                    const sdx = p1.screenX - p2.screenX;
-                    const sdy = p1.screenY - p2.screenY;
-                    const screenDist = Math.sqrt(sdx*sdx + sdy*sdy);
-
-                    if (screenDist < connectionDistance) {
-                        const opacity = (1 - screenDist / connectionDistance) * p1.scale;
-
-                        // Cyberpunk Colors: Mix Cyan and Purple based on depth
-                        if (p1.zDepth < 0) {
-                            ctx.strokeStyle = `rgba(0, 240, 255, ${opacity * 0.6})`; // Cyan (Front)
-                        } else {
-                            ctx.strokeStyle = `rgba(112, 0, 255, ${opacity * 0.3})`; // Purple (Back)
-                        }
-
-                        ctx.beginPath();
-                        ctx.moveTo(p1.screenX, p1.screenY);
-                        ctx.lineTo(p2.screenX, p2.screenY);
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            // Draw Nodes
-            const size = 2 * p1.scale;
-            ctx.fillStyle = p1.zDepth < 0 ? '#fff' : '#555';
-            ctx.beginPath();
-            ctx.arc(p1.screenX, p1.screenY, size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
         requestAnimationFrame(animate);
+
+        // Smoothly interpolate current rotation towards target mouse position
+        // The 0.05 factor controls the "lag" or smoothness. Lower is slower/smoother.
+
+        targetX = mouseX * 0.001;
+        targetY = mouseY * 0.001;
+
+        // Only rotate based on mouse interaction, no auto-rotation added here
+        particles.rotation.y += 0.05 * (targetX - particles.rotation.y);
+        particles.rotation.x += 0.05 * (targetY - particles.rotation.x);
+
+        // Add a very subtle "breathing" motion to the particles so it's not dead static when idle
+        const time = clock.getElapsedTime();
+        particles.position.y = Math.sin(time * 0.5) * 1;
+
+        renderer.render(scene, camera);
     }
 
-    // Input Handling
-    window.addEventListener('resize', () => {
-        resize();
-        initPoints();
-    });
-
-    window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-
-    // Start
-    resize();
-    initPoints();
     animate();
-
-
-    // --- Scroll Animations (Intersection Observer) ---
-    const observerOptions = {
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in').forEach(el => {
-        observer.observe(el);
-    });
-
 </script>
 </body>
 </html>
