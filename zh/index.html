@@ -1,1 +1,482 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姚任轩 (Renxuan Yao) | AI 研究员与开发者</title>
+    <meta name="description" content="姚任轩的个人主页与在线简历 - 布朗大学计算机硕士，AI 研究员与全栈开发者。">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #050505;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .interactive-element {
+            transition: all 0.3s ease;
+        }
+
+        .interactive-element:hover {
+            transform: translateY(-2px);
+        }
+
+        .zh-leading {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+
+<div id="canvas-container"></div>
+
+<nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center backdrop-blur-sm bg-black/20">
+    <a href="#home" class="text-xl font-bold tracking-tight text-white/90 hover:text-white transition-colors">
+        RY<span class="text-emerald-400">_</span>
+    </a>
+
+    <div class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+        <a href="#about" class="hover:text-emerald-400 transition-colors">个人简介</a>
+        <a href="#education" class="hover:text-emerald-400 transition-colors">教育经历</a>
+        <a href="#experience" class="hover:text-emerald-400 transition-colors">工作经历</a>
+        <a href="#projects" class="hover:text-emerald-400 transition-colors">项目经验</a>
+        <a href="#leadership" class="hover:text-emerald-400 transition-colors">校园经历</a>
+    </div>
+
+    <div class="flex items-center gap-6">
+        <a href="../file/CV_Renxuan_Yao.pdf" class="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group" title="下载简历">
+            <span class="text-xs font-light tracking-widest hidden lg:block group-hover:opacity-100 transition-opacity">PDF简历</span>
+            <img src="../file/cv.svg" alt="CV" class="h-5 w-5 opacity-60 group-hover:opacity-100 transition-opacity" style="filter: invert(100%);">
+        </a>
+        <a href="/" class="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group" title="English Version">
+            <span class="text-xs font-medium px-2 py-1 border border-gray-600 rounded hover:border-emerald-400 hover:text-emerald-400 transition-colors">EN</span>
+        </a>
+    </div>
+</nav>
+
+<div class="relative z-10">
+
+    <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center px-4">
+        <h2 class="text-emerald-400 font-medium tracking-[0.2em] mb-4 text-sm uppercase animate-fade-in-up">AI 研究员 & 全栈开发者</h2>
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+            姚任轩
+        </h1>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light mb-8">
+            <strong class="text-white font-medium">布朗大学 (Brown University)</strong> 计算机科学硕士在读。<br>
+            致力于探索人工智能如何让世界变得更无障碍、更人性化与更智能。
+        </p>
+        <div class="flex gap-4">
+            <a href="#projects" class="border border-white/20 hover:border-white/80 bg-white/5 hover:bg-white/10 text-white px-8 py-3 rounded-full backdrop-blur-sm transition-all duration-300">
+                查看项目
+            </a>
+            <a href="mailto:renxuan_yao@brown.edu" class="text-gray-400 hover:text-white px-8 py-3 transition-colors flex items-center gap-2">
+                联系我 <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 px-6 md:px-12 max-w-6xl mx-auto">
+        <div class="flex items-center gap-4 mb-12">
+            <span class="text-emerald-400 font-mono text-sm">01.</span>
+            <h2 class="text-3xl font-bold text-white">个人简介</h2>
+            <div class="h-px bg-white/10 flex-grow max-w-xs"></div>
+        </div>
+
+        <div class="grid md:grid-cols-5 gap-12">
+            <div class="md:col-span-3 text-gray-400 zh-leading space-y-6">
+                <p>
+                    我的技术背景涵盖人工智能、机器学习以及全栈/移动端开发。从 C 语言和 Python 起步，我目前正专注于如何将前沿的科研想法转化为具有实际落地价值的工程系统。
+                </p>
+                <p>
+                    我一直对科技向善充满热情，例如利用 AI 技术辅助服务型动物（Service Animals）的训练，为真正需要帮助的群体提供更多的无障碍支持与生活独立性。
+                </p>
+                <p>
+                    目前，我正在常春藤盟校<strong>布朗大学 (Brown University)</strong> 攻读计算机科学硕士学位（AI 方向）。
+                </p>
+            </div>
+            <div class="md:col-span-2">
+                <div class="glass-panel p-6 rounded-lg space-y-4">
+                    <div>
+                        <div class="text-emerald-400 mb-2 font-medium text-sm">> 编程语言</div>
+                        <div class="text-gray-400 text-sm leading-relaxed">
+                            Python, Java, SQL, MATLAB, TypeScript, C/C++, JavaScript, Swift, Kotlin, PHP, Assembly
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-emerald-400 mb-2 font-medium text-sm">> 框架与工具</div>
+                        <div class="text-gray-400 text-sm leading-relaxed">
+                            AWS, PostgreSQL, MongoDB, Docker, MySQL, Linux, Node.js, GitHub Actions, Git, Android Studio, PyQt5, React
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-emerald-400 mb-2 font-medium text-sm">> 核心领域</div>
+                        <div class="text-gray-400 text-sm leading-relaxed">
+                            机器学习/深度学习/自然语言处理 (ML/DL/NLP), 数据建模, 全栈开发, 数据结构与算法, 面向对象编程 (OOP), 数据分析
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="py-24 px-6 md:px-12 max-w-4xl mx-auto">
+        <div class="flex items-center gap-4 mb-16">
+            <span class="text-emerald-400 font-mono text-sm">02.</span>
+            <h2 class="text-3xl font-bold text-white">教育经历</h2>
+            <div class="h-px bg-white/10 flex-grow max-w-xs"></div>
+        </div>
+
+        <div class="space-y-12 border-l border-white/10 ml-3">
+            <div class="relative pl-8 md:pl-12 group">
+                <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
+                    <h3 class="text-xl font-bold text-white">计算机科学 硕士</h3>
+                    <span class="text-sm font-mono text-emerald-400">2025年09月 – 2027年05月</span>
+                </div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-3 text-gray-400 font-medium">
+                    <span>布朗大学 (Brown University) | 计算机科学学院</span>
+                    <span class="text-sm text-gray-500 font-normal">罗德岛</span>
+                </div>
+                <div class="mb-3 text-sm flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-emerald-400">海外 QS 前100</span>
+                    <span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-emerald-400">US News 50</span>
+                </div>
+                <div class="text-sm text-gray-400 leading-relaxed zh-leading">
+                    <strong class="text-gray-200">研究方向：</strong>机器学习、深度学习、算法、博弈论
+                </div>
+            </div>
+
+            <div class="relative pl-8 md:pl-12 group">
+                <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-emerald-500/50 group-hover:bg-emerald-500 transition-colors"></div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
+                    <h3 class="text-xl font-bold text-white">计算机与信息科技 本科</h3>
+                    <span class="text-sm font-mono text-emerald-400">2021年09月 – 2024年12月</span>
+                </div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-3 text-gray-400 font-medium">
+                    <span>美国天普大学 (Temple University) | 科学与技术学院</span>
+                    <span class="text-sm text-gray-500 font-normal">费城</span>
+                </div>
+                <div class="mb-4 text-sm flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-emerald-400">绩点: 3.94 / 4.0</span>
+                    <span class="px-2 py-1 bg-white/5 border border-white/10 rounded text-emerald-400">辅修应用数学</span>
+                </div>
+                <div class="text-sm text-gray-400 leading-relaxed zh-leading">
+                    <strong class="text-gray-200">核心课程：</strong>数据结构与算法、操作系统、数据库系统、软件工程、人工智能、概率论、数值分析
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="py-24 px-6 md:px-12 max-w-4xl mx-auto">
+        <div class="flex items-center gap-4 mb-16">
+            <span class="text-emerald-400 font-mono text-sm">03.</span>
+            <h2 class="text-3xl font-bold text-white">工作与科研经历</h2>
+            <div class="h-px bg-white/10 flex-grow max-w-xs"></div>
+        </div>
+
+        <div class="space-y-12 border-l border-white/10 ml-3">
+
+            <div class="relative pl-8 md:pl-12 group">
+                <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
+                    <h3 class="text-xl font-bold text-white">教育科技与信息系统研发实习生</h3>
+                    <span class="text-sm font-mono text-emerald-400">2025年1月 – 2025年6月</span>
+                </div>
+                <div class="text-gray-400 font-medium mb-3">世界联合学院（常熟 UWC）</div>
+                <ul class="list-disc list-outside ml-4 text-gray-400 space-y-2 text-sm zh-leading marker:text-emerald-500/50">
+                    <li>负责后端数据处理，运用 <strong>Python</strong> 和 <strong>SQL</strong> 编写自动化脚本，实现对超过 10 万条学生出勤数据的提取、清洗与多维分析。</li>
+                    <li>深入调研教育工作者实际痛点，基于用户中心设计（UCD）原则开发实用校园内部工具。</li>
+                    <li>独立负责社团官方网页的前端搭建，并开发了一款集成 Python 后端业务逻辑的 Android 应用程序。</li>
+                </ul>
+            </div>
+
+            <div class="relative pl-8 md:pl-12 group">
+                <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-emerald-500/50 group-hover:bg-emerald-500 transition-colors"></div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
+                    <h3 class="text-xl font-bold text-white">科研助理 - 基于深度学习的时间序列插补算法研究</h3>
+                    <span class="text-sm font-mono text-emerald-400">2024年6月 – 2024年12月</span>
+                </div>
+                <div class="text-gray-400 font-medium mb-3">天普大学 - 导师: Prof. Longin Jan Latecki</div>
+                <ul class="list-disc list-outside ml-4 text-gray-400 space-y-2 text-sm zh-leading marker:text-emerald-500/50">
+                    <li>聚焦于时间序列数据挖掘，利用 <strong>Transformers</strong> 和 <strong>多层感知机 (MLP)</strong> 模型研究长序列缺失值的插补（Imputation）算法。</li>
+                    <li>对复杂的真实地质数据集（以体积含水量为核心指标）进行深度特征分析与预处理。</li>
+                    <li>设计对比实验，全面评估 <strong>SkLearn, MissForest</strong> 等 Python 主流算法库与 R 语言工具包在精度与性能上的优劣差异。</li>
+                </ul>
+            </div>
+
+            <div class="relative pl-8 md:pl-12 group">
+                <div class="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-emerald-500/50 group-hover:bg-emerald-500 transition-colors"></div>
+                <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
+                    <h3 class="text-xl font-bold text-white">计算机与数学辅导导师</h3>
+                    <span class="text-sm font-mono text-emerald-400">2023年6月 - 2023年12月</span>
+                </div>
+                <div class="text-gray-400 font-medium mb-3">天普大学日本分校 (TUJ)</div>
+                <ul class="list-disc list-outside ml-4 text-gray-400 space-y-2 text-sm zh-leading marker:text-emerald-500/50">
+                    <li>为学生提供高质量的一对一辅导，涵盖：基础编程、面向对象编程 (OOP)、数据结构与算法及微积分。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-24 px-6 md:px-12 max-w-5xl mx-auto">
+        <div class="flex items-center gap-4 mb-12">
+            <span class="text-emerald-400 font-mono text-sm">04.</span>
+            <h2 class="text-3xl font-bold text-white">项目经验</h2>
+            <div class="h-px bg-white/10 flex-grow max-w-xs"></div>
+        </div>
+
+        <div class="space-y-8">
+
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <i class="fa-solid fa-pen-to-square text-8xl text-white"></i>
+                </div>
+                
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <h3 class="text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors">基于手写识别的实时协同面试白板</h3>
+                    <a href="https://github.com/capstone-projects-2024-fall/project-whiteboardflow" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa-brands fa-github text-2xl"></i>
+                    </a>
+                </div>
+                
+                <div class="relative z-10 text-sm text-gray-400 space-y-3 zh-leading">
+                    <p><strong class="text-gray-200">技术栈：</strong>React, MyScript API, 前端 UI/UX 设计</p>
+                    <p><strong class="text-gray-200">主要职责：</strong>主导前端响应式架构与交互设计，集成 MyScript API 实现实时手写代码识别，全面优化面试官与候选人的代码审阅与推导体验。</p>
+                </div>
+            </div>
+
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <i class="fa-solid fa-language text-8xl text-white"></i>
+                </div>
+
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <h3 class="text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors">基于深度学习的汉字识别系统 (DL Baseline)</h3>
+                    <a href="https://github.com/Edwardd02/Baseline-Model-for-Recognizing-Chinese-Characters" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa-brands fa-github text-2xl"></i>
+                    </a>
+                </div>
+                
+                <div class="relative z-10 text-sm text-gray-400 space-y-3 zh-leading">
+                    <p><strong class="text-gray-200">技术栈：</strong>Python, NumPy, 深度学习算法, 数学建模</p>
+                    <p><strong class="text-gray-200">项目描述：</strong>脱离 PyTorch 等高级框架，基于 Python 和 NumPy 从零构建中文字符识别神经网络，纯手工推导并实现了前向/反向传播核心算法与底层矩阵运算优化。</p>
+                </div>
+            </div>
+
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <i class="fa-solid fa-gavel text-8xl text-white"></i>
+                </div>
+
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <h3 class="text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors">BidAgent Simulator (竞价代理仿真系统)</h3>
+                    <a href="https://github.com/Edwardd02/BidAgent_Simulator" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa-brands fa-github text-2xl"></i>
+                    </a>
+                </div>
+
+                <div class="relative z-10 text-sm text-gray-400 space-y-3 zh-leading">
+                    <p><strong class="text-gray-200">技术栈：</strong>MATLAB, 面向对象编程 (OOP), 统计分析</p>
+                    <p><strong class="text-gray-200">项目描述：</strong>设计多风险偏好的自主竞价策略，实施大规模并发仿真，并用皮尔逊系数对拍卖成交趋势与代理行为进行量化验证与分析。</p>
+                </div>
+            </div>
+
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <i class="fa-solid fa-database text-8xl text-white"></i>
+                </div>
+
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <h3 class="text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors">PyCourseDB Manager (教务数据库管理系统)</h3>
+                    <a href="https://github.com/Edwardd02/PyCourseDB_Manager" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa-brands fa-github text-2xl"></i>
+                    </a>
+                </div>
+
+                <div class="relative z-10 text-sm text-gray-400 space-y-3 zh-leading">
+                    <p><strong class="text-gray-200">技术栈：</strong>Python, MySQL, PyQt5</p>
+                    <p><strong class="text-gray-200">项目描述：</strong>一套集成了底层数据管理与前端图形界面 (GUI) 的本地化选课与教务信息管理系统。</p>
+                </div>
+            </div>
+
+            <div class="glass-panel p-8 rounded-xl interactive-element flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <i class="fa-solid fa-gamepad text-8xl text-white"></i>
+                </div>
+
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <h3 class="text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors">Crystal Crusader (RPG 游戏开发)</h3>
+                    <a href="https://github.com/cis3296s24/05_Crystal_Crusader?tab=readme-ov-file" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa-brands fa-github text-2xl"></i>
+                    </a>
+                </div>
+
+                <div class="relative z-10 text-sm text-gray-400 space-y-3 zh-leading">
+                    <p><strong class="text-gray-200">技术栈：</strong>Java, JavaFX, MVC 设计模式, OOP</p>
+                    <p><strong class="text-gray-200">项目描述：</strong>融合文本驱动剧情与图形界面战斗的独立游戏，深度应用面向对象高级特性与 MVC 底层架构设计。</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="leadership" class="py-24 px-6 md:px-12 max-w-4xl mx-auto mb-20">
+        <div class="flex items-center gap-4 mb-12">
+            <span class="text-emerald-400 font-mono text-sm">05.</span>
+            <h2 class="text-3xl font-bold text-white">校园经历与领导力</h2>
+            <div class="h-px bg-white/10 flex-grow max-w-xs"></div>
+        </div>
+
+        <div class="glass-panel p-8 rounded-lg border-l-4 border-l-emerald-400">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                <h3 class="text-xl font-bold text-white">编程俱乐部主席 (President)</h3>
+                <span class="text-sm font-mono text-gray-500">2023年1月 – 2023年12月</span>
+            </div>
+            <div class="text-emerald-400 mb-4 text-sm font-medium">天普大学日本分校 (TUJ)</div>
+            <p class="text-gray-400 text-sm zh-leading">
+                主讲新生编程讲座，统筹社团日常运营并带领团队完成多项内部开发。
+            </p>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center text-gray-600 text-sm relative z-10 glass-panel border-x-0 border-b-0">
+        <p>Designed & Built by 姚任轩.</p>
+        <p class="mt-2 font-mono text-xs">renxuanyao@brown.edu</p>
+    </footer>
+
+</div>
+
+<script>
+    // --- THREE.JS SETUP ---
+    const container = document.getElementById('canvas-container');
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x050505, 0.002);
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 30;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    // --- PARTICLES ---
+    const geometry = new THREE.BufferGeometry();
+    const count = 2000;
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+
+    const color1 = new THREE.Color(0x10b981); // Emerald
+    const color2 = new THREE.Color(0x3b82f6); // Blue
+
+    for (let i = 0; i < count; i++) {
+        const x = (Math.random() - 0.5) * 80;
+        const y = (Math.random() - 0.5) * 80;
+        const z = (Math.random() - 0.5) * 80;
+
+        positions[i * 3] = x;
+        positions[i * 3 + 1] = y;
+        positions[i * 3 + 2] = z;
+
+        const mixedColor = color1.clone().lerp(color2, Math.random());
+        colors[i * 3] = mixedColor.r;
+        colors[i * 3 + 1] = mixedColor.g;
+        colors[i * 3 + 2] = mixedColor.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+        size: 0.3,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending
+    });
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    // --- INTERACTION STATE ---
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    const windowHalfX = window.innerWidth / 2;
+    const windowHalfY = window.innerHeight / 2;
+
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX - windowHalfX);
+        mouseY = (event.clientY - windowHalfY);
+    });
+
+    document.addEventListener('touchmove', (event) => {
+        if (event.touches.length > 0) {
+            mouseX = (event.touches[0].clientX - windowHalfX);
+            mouseY = (event.touches[0].clientY - windowHalfY);
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // --- ANIMATION LOOP ---
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        targetX = mouseX * 0.001;
+        targetY = mouseY * 0.001;
+
+        particles.rotation.y += 0.05 * (targetX - particles.rotation.y);
+        particles.rotation.x += 0.05 * (targetY - particles.rotation.x);
+
+        const time = clock.getElapsedTime();
+        particles.position.y = Math.sin(time * 0.5) * 1;
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+</script>
+</body>
+</html>
